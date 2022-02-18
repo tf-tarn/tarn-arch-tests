@@ -1,28 +1,15 @@
         .include "simtests/testutils.inc"
 
-        .equ result16, 0x6030
+        .equ result16, 0x6030       ; product
 
-        ;; .global temp_sum_lo
-        ;; .global temp_sum_hi
-        ;; .global temp_carry
-        .equ a16, 0x5012
-        .equ b16, 0x5014
+        .equ a16, 0x5012            ; first multiplicand
+        .equ b16, 0x5014            ; second multiplicand
 
-        .equ temp_space,     0x4000
-        .equ temp_sum_lo,    0x4022
-        .equ temp_sum_hi,    0x4024
-        .equ temp_carry,     0x4026
+        .equ temp_space,     0x4000 ; temporary storage
+        .equ temp_sum_lo,    0x4000
+        .equ temp_sum_hi,    0x4001
+        .equ temp_carry,     0x4002
 
-
-	.macro plus a, b
-        mov ara   \a   ,0
-        mov arb   \b  ,0
-        .endm
-
-	.macro plusk a, k
-        mov ara   \a   ,0
-        mov arb   il   ,\k
-        .endm
 
         .macro ljmp s
 	mov     jmph il   ,hi8(\s)
@@ -90,18 +77,6 @@
 	store \result   arc
         store \result+1 r
 
-        .endm
-
-        ;;  Just a hack, because status isn't loaded automatically.
-        .macro update_status
-        mov status p0
-        .endm
-
-        .macro disp reg n
-        .if \n
-        mov p0 \reg
-        disp \reg "\n-1"
-        .endif
         .endm
 
 ;;; program follows

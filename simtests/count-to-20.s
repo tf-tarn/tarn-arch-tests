@@ -16,37 +16,12 @@
         increment mem
         .endm
 
-        ;; Count up till overflow
         .macro initialize n_loops
+        ;; Set counter appropriately for the given number of iterations
         lad counter
         mov mem il ,0xff-\n_loops+1
         lad offset
         mov mem il ,0
-        .endm
-
-	.macro plus a, b
-        mov ara   \a   ,0
-        mov arb   \b  ,0
-        .endm
-	.macro plusk a, k
-        mov ara   \a   ,0
-        mov arb   il   ,\k
-        .endm
-
-        ;;  Just a hack, because status isn't loaded automatically.
-        .macro update_status
-        mov status p0
-        .endm
-
-        .macro calc_jump_offset
-        plus status status
-        mov r arc
-        .endm
-
-        .macro double dest src
-        mov ara \src
-        mov arb \src
-        mov \dest arc
         .endm
 
         /*
@@ -72,11 +47,9 @@ loop_start:
         plusk mem 1
         mov mem arc
 
+        ;; Count up till arithmetic carry
         update_status
-        ;; double status
-        double r status
-        ;; double it again
-        double r r
+        quadruple r status
         ;; add to branch1 address
         ;; it is either branch1 or branch1+4 which is branch2
         mov ara il ,lo8(branch1)

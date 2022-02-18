@@ -1,3 +1,40 @@
+        .macro update_status
+        ;;  Just a hack, because status isn't loaded automatically.
+        mov status p0
+        .endm
+
+        .macro double dest src
+        ;; dest = 2 * src
+        mov ara \src
+        mov arb \src
+        mov \dest arc
+        .endm
+
+	.macro plusk a, k
+        ;; Add a register and a constant
+        mov ara   \a   ,0
+        mov arb   il   ,\k
+        .endm
+
+	.macro plus a, b
+        ;; Add two registers
+        mov ara   \a   ,0
+        mov arb   \b  ,0
+        .endm
+
+        .macro triple dest src
+        ;; dest = 3 * src
+        double \dest \src
+        plus \dest \src
+        mov \dest arc
+        .endm
+
+        .macro quadruple dest src
+        ;; dest = 4 * src
+        double r \src
+        double \dest r
+        .endm
+
         .macro increment reg
         ;; Increment the specified register
         mov ara   \reg ,0
