@@ -1,5 +1,4 @@
-	.file	"foo.c"
-	.text
+        .include "simtests/testutils.inc"
 
         .equ result16, 0x6030
 
@@ -136,22 +135,11 @@
         .endif
         .endm
 
-        .macro halt
-        ;; Stop simulated execution with a bad jump instruction.
-        .byte 0x99
-        .byte 0x99
-        .endm
-
 ;;; program follows
 
 	.text
-	.p2align	1       ; instructions must be aligned to 2-byte boundary
 	.global	_start
-	.type	_start, @function
 _start:
-# BLOCK 2 seq:0
-        # PRED: ENTRY (FALLTHRU)
-
         storegk a16   0x12
         storegk a16+1 0x34
         storegk b16   0x56
@@ -159,33 +147,4 @@ _start:
 
         plus16 a16 b16 result16
 
-        nop
-        nop
-        nop
         halt
-
-        ljmp fib_loop
-
-	.global	fib
-	.type	fib, @function
-fib:
-        mov ara il ,1
-        mov arb il ,0
-
-	.global	fib_loop
-	.type	fib_loop, @function
-fib_loop:
-
-        mov r arc
-        mov arb r
-        disp arc 1
-
-        mov r arc
-        mov ara r
-        disp arc 1
-
-        jump                    ; loop forever
-# SUCC: EXIT [always]
-	#TODO: implement return	# 18	[c=0 l=2]  returner
-	.size	_start, .-_start
-	.ident	"GCC: (GNU) 11.1.0"
