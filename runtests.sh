@@ -12,6 +12,7 @@ for srcfile in simtests/*.s; do
     name=$(basename $srcfile)
     expectfile=simtests/$name.e
     output=testruns/$name.output
+    rm -f $output
     (
         echo
         echo ==== BEGIN TEST $name ====
@@ -25,7 +26,7 @@ for srcfile in simtests/*.s; do
         dd if=/dev/zero of=$memfile bs=1024 count=64
         tarn-elf32-run --memory-mapfile $memfile --memory-region 0,65536 --memory-info --map-info -t $execfile
         hexdump -C $memfile | tee $output
-    ) >> $LOGFILE 2>&1
+    ) >> $LOGFILE 2>&1 || true
     diff -U1 $expectfile $output
 done
 echo log written to $LOGFILE

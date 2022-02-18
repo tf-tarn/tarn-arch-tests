@@ -24,25 +24,9 @@
         mov arb   il   ,\k
         .endm
 
-        .macro increment a
-        mov ara   \a   ,0
-        mov arb   il   ,1
-        mov \a    arc  ,0
-        .endm
-
-        .macro lad s
-	mov     adh il   ,hi8(\s)
-	mov	adl il   ,lo8(\s)
-        .endm
-
         .macro ljmp s
 	mov     jmph il   ,hi8(\s)
 	mov	jmpl il   ,lo8(\s)
-        .endm
-
-        .macro store addr r
-        mov adl il ,lo8(\addr)
-        mov mem \r
         .endm
 
         .macro storek addr k
@@ -50,24 +34,9 @@
         mov mem il ,\k
         .endm
 
-        .macro storeg addr r
-        lad \addr
-        mov mem \r
-        .endm
-
         .macro storegk addr k
         lad \addr
         mov mem il ,\k
-        .endm
-
-        .macro load dest addr
-        mov adl il ,lo8(\addr)
-        mov \dest mem
-        .endm
-
-        .macro loadg dest addr
-        lad \addr
-        mov \dest mem
         .endm
 
         .macro loadnext dest addr

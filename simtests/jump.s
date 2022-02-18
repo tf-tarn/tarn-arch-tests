@@ -3,17 +3,6 @@
         .equ offset, 0x6000     ; Checkpoint counter
         .equ output, 0x7000     ; Output segment
 
-        .macro lad s
-	mov     adh il   ,hi8(\s)
-	mov	adl il   ,lo8(\s)
-        .endm
-
-        .macro increment a
-        mov ara   \a   ,0
-        mov arb   il   ,1
-        mov \a    arc  ,0
-        .endm
-
         ;; Increment offset and store the provided value at that
 	;; location in the output segment.
         .macro checkpoint value
